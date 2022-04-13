@@ -1,5 +1,5 @@
 ---
-- name: package test
+- name: ubuntu vm configuration
   hosts: ubuntu
   become: true
   vars:
@@ -7,6 +7,12 @@
 
   tasks: 
   - name: Install cowsay
+    tags: packages
     ansible.builtin.package:
       name: "{{ cowsay_package_name }}"
       state: present
+      update_cache: true
+  - name: add newuser
+    tags: users
+    ansible.builtin.user:
+      name: newuser
