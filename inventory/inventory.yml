@@ -1,0 +1,13 @@
+---
+
+all:
+  hosts:
+    demobox:
+      ansible_connection: local
+      ansible_host: localhost
+      ansible_python_interpreter: /usr/bin/python2
+    ubuntu:
+      ansible_host: ec2-18-236-218-216.us-west-2.compute.amazonaws.com
+      ansible_user: ubuntu
+      ansible_ssh_private_key_file: /home/ec2-user/ubuntu.pem
+      ansible_python_interpreter: /usr/bin/python3
