@@ -1,0 +1,43 @@
+---
+#Target ubuntu and allow sudo to create users
+- name: Ubuntu VM
+  hosts: ubuntu
+  become: true
+
+#task list: create group, give permissions to start/stop/restart cron
+  tasks: 
+  - name: create cron group
+    tag: group
+    ansible.builtin.group:
+      name: cronadmin
+      state: present
+  - name: grant cronadmin sudo permissions
+    community.general.sudoers:
+      name: cronadmin-permissions
+      group: cronadmin
+      commands:
+        - /bin/systemctl start cron
+        - /bin/systemctl stop cron
+        - /bin/systemctl restart cron
+#create usera, userb and add them to cronadmin, create userc, all three create ssh keys
+  - name: create user A
+    tags: user
+    ansible.builtin.user:
+      name: usera
+      generate_ssh_key: yes
+      ssh_key_file: ~/.ssh/id_rsa
+      groups: cronadmin
+  - name: create user B
+    tags: user
+    ansible.builtin.user:
+      name: userb
+      generate_ssh_key: yes
+      ssh_key_file: ~/.ssh/id_rsa
+      groups: cronadmin
+  - name: create user C
+    tags: user
+    ansible.builtin.user:
+      name: userc
+      generate_ssh_key: yes
+      ssh_key_file: ~/.ssh/id_rsa
+

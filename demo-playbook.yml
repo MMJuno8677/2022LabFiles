@@ -16,3 +16,9 @@
     tags: users
     ansible.builtin.user:
       name: newuser
+  - name: grant newuser sudo access
+    tags: users
+    community.general.sudoers:
+      name: newuser-permissions
+      user: newuser
+      commands: /bin/systemctl restart cron
